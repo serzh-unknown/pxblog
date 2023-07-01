@@ -2,8 +2,8 @@ import Config
 
 # Configure your database
 config :pxblog, Pxblog.Repo,
-  username: "postgres",
-  password: "postgres",
+  username: "user",
+  password: "password",
   hostname: "localhost",
   database: "pxblog_dev",
   stacktrace: true,

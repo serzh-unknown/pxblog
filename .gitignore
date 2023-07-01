@@ -35,3 +35,15 @@ pxblog-*.tar
 npm-debug.log
 /assets/node_modules/
 
+# Docker-compose override
+docker-compose.override.yml
+
+# Intellij IDE
+/.idea/
+*.iml
+
+# VS Code
+/.vscode/
+
+# Local data (db, logs, etc)
+/data/
