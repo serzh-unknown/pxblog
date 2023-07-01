@@ -20,6 +20,7 @@ defmodule PxblogWeb.Router do
     get "/", PageController, :home
     resources "/posts", PostController
     resources "/users", UserController
+    resources "/sessions", SessionController, only: [:new, :create]
   end
 
   # Other scopes may use custom stacks.
