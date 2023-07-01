@@ -4,7 +4,8 @@
   </.error>
   <.input field={f[:username]} type="text" label="Username" />
   <.input field={f[:email]} type="text" label="Email" />
-  <.input field={f[:password_hash]} type="text" label="Password hash" />
+  <.input field={f[:password]} type="password" label="Password" />
+  <.input field={f[:password_confirmation]} type="password" label="Password Confirmation" />
   <:actions>
     <.button>Save User</.button>
   </:actions>

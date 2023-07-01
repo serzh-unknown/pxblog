@@ -3,9 +3,9 @@ defmodule PxblogWeb.UserControllerTest do
 
   import Pxblog.AccountsFixtures
 
-  @create_attrs %{email: "some email", password_hash: "some password_hash", username: "some username"}
-  @update_attrs %{email: "some updated email", password_hash: "some updated password_hash", username: "some updated username"}
-  @invalid_attrs %{email: nil, password_hash: nil, username: nil}
+  @create_attrs %{email: "user@email.com", password: "password", username: "username"}
+  @update_attrs %{email: "some_user@email.com", password: "updated password", username: "updated username"}
+  @invalid_attrs %{email: nil, password: nil, username: nil}
 
   describe "index" do
     test "lists all users", %{conn: conn} do
@@ -55,7 +55,7 @@ defmodule PxblogWeb.UserControllerTest do
       assert redirected_to(conn) == ~p"/users/#{user}"
 
       conn = get(conn, ~p"/users/#{user}")
-      assert html_response(conn, 200) =~ "some updated email"
+      assert html_response(conn, 200) =~ @update_attrs.email
     end
 
     test "renders errors when data is invalid", %{conn: conn, user: user} do

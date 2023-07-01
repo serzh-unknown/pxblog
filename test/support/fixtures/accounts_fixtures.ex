@@ -11,9 +11,9 @@ defmodule Pxblog.AccountsFixtures do
     {:ok, user} =
       attrs
       |> Enum.into(%{
-        email: "some email",
-        password_hash: "some password_hash",
-        username: "some username"
+        email: "user@email.com",
+        password: "password",
+        username: "username"
       })
       |> Pxblog.Accounts.create_user()
 
