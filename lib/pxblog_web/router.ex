@@ -19,6 +19,7 @@ defmodule PxblogWeb.Router do
 
     get "/", PageController, :home
     resources "/posts", PostController
+    resources "/users", UserController
   end
 
   # Other scopes may use custom stacks.
