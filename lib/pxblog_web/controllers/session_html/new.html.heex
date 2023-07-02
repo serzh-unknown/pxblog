@@ -1,5 +1,5 @@
-<.header>
-  Login
-</.header>
-
-<.session_form changeset={@changeset} action={~p"/sessions"} />
+<.flash_group flash={@flash} />
+<div class="mx-auto w-80">
+    <.header>Login</.header>
+    <.session_form changeset={@changeset} action={~p"/sessions"} />
+</div>

@@ -6,21 +6,45 @@ defmodule PxblogWeb.SessionController do
   alias PxblogWeb.Router.Helpers
   require Logger
 
+  @doc """
+  Login form
+  """
+
   def new(conn, _params) do
-    render conn, "new.html", changeset: User.changeset(%User{}, %{})
+    render conn, "new.html", %{changeset: User.changeset(%User{}, %{}), layout: false}
   end
+
+  @doc """
+  Login action
+  """
 
   plug :scrub_params, "user" when action in [:create]
 
-  def create(conn, %{"user" => user_params}) do
-    Pxblog.Repo.get_by(User, username: user_params["username"])
-    |> sign_in(user_params["password"], conn)
+  def create(conn, %{"user" => %{"username" => username, "password" => password}})
+    when not is_nil(username) and not is_nil(password) do
+    Pxblog.Repo.get_by(User, username: username)
+    |> sign_in(password, conn)
+  end
+
+  @doc """
+  Login failed action (username or/and password is empty)
+  """
+
+  def create(conn, _) do
+    failed_login(conn)
+  end
+
+  defp failed_login(conn) do
+    Argon2.no_user_verify()
+    conn
+    |> put_session(:current_user, nil)
+    |> put_flash(:error, "Invalid username/password!")
+    |> redirect(to: Helpers.session_path(conn, :new))
+    |> halt()
   end
 
   defp sign_in(user, _password, conn) when is_nil(user) do
-    conn
-    |> put_flash(:error, "Invalid username/password!")
-    |> redirect(to: Helpers.session_path(conn, :new))
+    failed_login(conn)
   end
 
   defp sign_in(user, password, conn) do
@@ -30,12 +54,13 @@ defmodule PxblogWeb.SessionController do
       |> put_flash(:info, "Sign in successful!")
       |> redirect(to: Helpers.page_path(conn, :home))
     else
-      conn
-      |> put_session(:current_user, nil)
-      |> put_flash(:error, "Invalid username/password!")
-      |> redirect(to: Helpers.session_path(conn, :new))
+      failed_login(conn)
     end
   end
+
+  @doc """
+  Logout action
+  """
 
   def delete(conn, _params) do
     conn
